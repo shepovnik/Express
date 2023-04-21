@@ -14,7 +14,7 @@ router.get('/stats', (req, res) => {
     user.user_agent++;
     res.send(`<table>
     <tr><th>User-agent:</th><th>Request:</th></tr>
-    <tr><td>${req.headers['user-agent']}</td><td>${users.user_agent}</td></tr>
+    <tr><td>${req.headers['user-agent']}</td><td>${user.user_agent}</td></tr>
     </table>`);
 })
 
@@ -22,14 +22,6 @@ router.post('/comments', urlencodedParser, (req, res) => {
     if (!req.body) return res.status(404);
     console.log(req.body);
     res.send('NICE');
-})
-
-router.use((req, res) => {
-    res.status(404).send('"400 Bad Request"');
-})
-
-router.use((err, req,res) => {
-    res.status(500).send('"400 Bad Request serve"')
 })
 
 module.exports = router;
