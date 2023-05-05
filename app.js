@@ -16,14 +16,12 @@ app.use(express.static('public'));
 app.use('/v1', restapi);
 app.use('/mongaka', contAPI);
 
+app.use(function (err, req, res, next) {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal server error';
+    res.status(statusCode).json({ message: message });
+})
+
 app.listen(port, hostname, () => {
-    console.log(`Server is running on https://${hostname}:${port}`);
-})
-
-app.use((req, res) => {
-    res.status(404).send('"400 Bad Request"');
-})
-
-app.use((err, req, res) => {
-    res.status(500).send('"400 Bad Request serve"')
+    console.log(`Server is running on http://${hostname}:${port}`);
 })

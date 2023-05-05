@@ -1,31 +1,25 @@
 const express = require("express");
 const cont = express.Router();
-const {insDB, findAll, findOne} = require("../services/serv");
-const urlencodedParser = express.urlencoded({extended: false});
+const { getcom, getcomid, postcom, postApi, chApi, insMod, updMod, delMod, findM, findOneM  } = require('../services/serv');
 
-cont.get('/comments', async (req,res) => {
-    const find = await findAll();
-    res.send(find);
-})
+const jsonParser = express.json();
 
-cont.get('/comments/:id', async (req,res) => {
-    let id = req.params.id;
-    const result = await findOne(id);
-    if (result === null){
-        res.status(404);
-        res.send('Error');
-    }
-    else{
-        res.send(result)
-    }
-})
+cont.post('/comments',jsonParser, postcom);
 
-cont.post('/comments', urlencodedParser, async (req,res) => {
-    if (!req.body) return res.status(404).send(Error);
-    body = req.body;
-    await insDB(body);
-    console.log(insDB);
-    res.send('Данные добавлены');
-})
+cont.get('/comments', getcom);
+
+cont.get('/comments/:id', getcomid);
+
+cont.post('/apikey', jsonParser, postApi);
+
+cont.get('/models/', findM);
+
+cont.post('/models', chApi, jsonParser, insMod);
+
+cont.get('/models/:id', findOneM);
+
+cont.put('/models/:id', chApi, jsonParser, updMod);
+
+cont.delete('/models/:id', chApi, delMod);
 
 module.exports = cont;
